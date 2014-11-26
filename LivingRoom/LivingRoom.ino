@@ -1,36 +1,48 @@
-/* LED Blink, Teensyduino Tutorial #1
-   http://www.pjrc.com/teensy/tutorial.html
- 
-   This example code is in the public domain.
-*/
+int inPin = 12;        // the number of the input pin
+int inPinTwo = 11;     // the number of the second input pin
+int outPin = 13;       // the number of the output pin
 
-// Teensy 2.0 has the LED on pin 11
-// Teensy++ 2.0 has the LED on pin 6
-// Teensy 3.0 has the LED on pin 13
-const int ledPin = 13;
-// the setup() method runs once, when the sketch starts
+int state = HIGH;      // the current state of the output pin
+int reading;           // the current reading from the input pin
+int previous = LOW;    // the previous reading from the input pin
 
-void setup() {
-  // initialize the digital pin as an output.
-  pinMode(ledPin, OUTPUT);
-  pinMode(7, INPUT);
-  pinMode(8, INPUT);
+// the follow variables are long's because the time, measured in miliseconds,
+// will quickly become a bigger number than can be stored in an int.
+long time = 0;         // the last time the output pin was toggled
+long debounce = 200;   // the debounce time, increase if the output flickers
+
+void setup()
+{
+  pinMode(inPin, INPUT_PULLUP);
+  pinMode(inPinTwo, INPUT_PULLUP);
+  pinMode(outPin, OUTPUT);
 }
 
-// the loop() methor runs over and over again,
-// as long as the board has power
+void loop()
+{
+  reading = digitalRead(inPin);
+  
+  // if the input just went from LOW and HIGH and we've waited long enough
+  // to ignore any noise on the circuit, toggle the output pin and remember
+  // the time
+  if (reading == HIGH && previous == LOW && millis() - time > debounce) {
+    if (state == HIGH)
+      state = LOW;
+    else
+      state = HIGH;
 
-void loop() {
-  digitalWrite(ledPin, HIGH);   // set the LED on
-  
-  if (digitalRead(7) == LOW) {
-    digitalWrite(ledPin, LOW);    // set the LED off
+    time = millis();    
   }
+
+  digitalWrite(outPin, state);
+
+  previous = reading;
   
-  if (digitalRead(8) == LOW) {
-    digitalWrite(ledPin, LOW);    // set the LED off
+  if(digitalRead(inPinTwo) == LOW && state == HIGH){
+    Serial.print('a'); 
+    while(digitalRead(inPinTwo) == LOW){
+       //chill in here while the button is pressed    
+    }
   }
-  
-  
 }
 
