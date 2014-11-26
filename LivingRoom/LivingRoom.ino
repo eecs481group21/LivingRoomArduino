@@ -3,6 +3,7 @@
 int inPin = 12;        // the number of the input pin
 int inPinTwo = 11;     // the number of the second input pin
 int outPin = 13;       // the number of the output pin
+int inPinThree = 10;
 
 int state = HIGH;      // the current state of the output pin
 int reading;           // the current reading from the input pin
@@ -18,6 +19,7 @@ void setup()
   pinMode(inPin, INPUT_PULLUP);
   pinMode(inPinTwo, INPUT_PULLUP);
   pinMode(outPin, OUTPUT);
+  pinMode(inPinThree, INPUT_PULLUP);
 }
 
 void loop()
@@ -43,6 +45,14 @@ void loop()
   if(digitalRead(inPinTwo) == LOW && state == HIGH){
     usb_keyboard_press(KEY_A, 0);
     while(digitalRead(inPinTwo) == LOW){
+      delay(900);
+       //chill in here while the button is pressed  aa  
+    }
+  }
+  
+  if(digitalRead(inPinThree) == LOW && state == HIGH){
+    usb_keyboard_press(KEY_B, 0);
+    while(digitalRead(inPinThree) == LOW){
       delay(900);
        //chill in here while the button is pressed    
     }
