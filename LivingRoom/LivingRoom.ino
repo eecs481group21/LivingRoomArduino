@@ -1,3 +1,5 @@
+#include <usb_keyboard.h>
+
 int inPin = 12;        // the number of the input pin
 int inPinTwo = 11;     // the number of the second input pin
 int outPin = 13;       // the number of the output pin
@@ -39,8 +41,9 @@ void loop()
   previous = reading;
   
   if(digitalRead(inPinTwo) == LOW && state == HIGH){
-    Serial.print('a'); 
+    usb_keyboard_press(KEY_A, 0);
     while(digitalRead(inPinTwo) == LOW){
+      delay(900);
        //chill in here while the button is pressed    
     }
   }
