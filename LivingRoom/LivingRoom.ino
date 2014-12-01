@@ -64,7 +64,6 @@ void loop()
 
   if(analogValue > 900 && state == HIGH)
   {
-    digitalWrite(13, HIGH);
     usb_keyboard_press(KEY_B, 0);
 
     while(analogValue > 900)
