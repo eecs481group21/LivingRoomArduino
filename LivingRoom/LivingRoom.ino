@@ -72,7 +72,7 @@ void loop()
 
   if(analogValue > minAnalogVal && state == HIGH)
   {
-    usb_keyboard_press(KEY_B, 0);
+    usb_keyboard_press(KEY_A, 0);
 
     while(analogValue > minAnalogVal)
     {
@@ -98,7 +98,7 @@ void loop()
 //  if(analogValue > minAnalogVal && state == HIGH)
 //  {
 //    digitalWrite(13, HIGH);
-//    usb_keyboard_press(KEY_C, 0);
+//    usb_keyboard_press(KEY_B, 0);
 //
 //    while(analogValue > minAnalogVal)
 //    {
