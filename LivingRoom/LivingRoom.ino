@@ -1,7 +1,6 @@
 #include <usb_keyboard.h>
 
 int inPin = 12;        // the number of the input pin
-int inPinTwo = 11;     // the number of the second input pin
 int outPin = 13;       // the number of the output pin
 
 
@@ -16,7 +15,7 @@ long debounce = 200;   // the debounce time, increase if the output flickers
 
 // analog inputs and constants
 int inPinThree = A9;
-//int inPinFour = A8;
+int inPinTwo = A8;
 int analogValue;
 const int analogDelay = 10; // time between each analog read
 const int numReads = 5;  // number of analog reads to calculate average from
@@ -27,7 +26,6 @@ const int minAnalogVal = 900; // any analog reading above minAnalogVal is consid
 void setup()
 {
   pinMode(inPin, INPUT_PULLUP);
-  pinMode(inPinTwo, INPUT_PULLUP);
   pinMode(outPin, OUTPUT);
   analogReference(DEFAULT);
 }
@@ -52,15 +50,6 @@ void loop()
   digitalWrite(outPin, state);
 
   previous = reading;
-
-  if(digitalRead(inPinTwo) == LOW && state == HIGH)
-  {
-    usb_keyboard_press(KEY_A, 0);
-    while(digitalRead(inPinTwo) == LOW)
-    {
-      delay(900);
-    }
-  }
 
   // inPinThree: Analog //////////////////////////////////////
   for (int i = 0; i < numReads; i++ )
@@ -87,29 +76,29 @@ void loop()
   }
 }
 
-  // inPinFour: Analog //////////////////////////////////////
-//  for (int i = 0; i < numReads; i++ )
-//  {
-//    analogValue += analogRead(inPinFour);
-//    delay(analogDelay);
-//  }
-//  analogValue = analogValue/numReads;
-//
-//  if(analogValue > minAnalogVal && state == HIGH)
-//  {
-//    usb_keyboard_press(KEY_B, 0);
-//
-//    while(analogValue > minAnalogVal)
-//    {
-//      analogValue = 0;
-//      for (int i = 0; i < numReads; i++ )
-//      {
-//        analogValue += analogRead(inPinFour);
-//        delay(analogDelay);
-//      }
-//      analogValue = analogValue/numReads;
-//    }
-//  }
-//}
+  // inPinTwo: Analog //////////////////////////////////////
+  for (int i = 0; i < numReads; i++ )
+  {
+    analogValue += analogRead(inPinTwo);
+    delay(analogDelay);
+  }
+  analogValue = analogValue/numReads;
+
+  if(analogValue > minAnalogVal && state == HIGH)
+  {
+    usb_keyboard_press(KEY_B, 0);
+
+    while(analogValue > minAnalogVal)
+    {
+      analogValue = 0;
+      for (int i = 0; i < numReads; i++ )
+      {
+        analogValue += analogRead(inPinTwo);
+        delay(analogDelay);
+      }
+      analogValue = analogValue/numReads;
+    }
+  }
+}
 
 
