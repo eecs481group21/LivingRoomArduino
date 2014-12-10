@@ -74,7 +74,7 @@ void loop()
       analogValue = analogValue/numReads;
     }
   }
-}
+
 
   // inPinTwo: Analog //////////////////////////////////////
   for (int i = 0; i < numReads; i++ )
