@@ -16,7 +16,7 @@ long debounce = 200;   // the debounce time, increase if the output flickers
 
 // analog inputs and constants
 int inPinThree = A9;
-//int inPinFour = A10;
+//int inPinFour = A8;
 int analogValue;
 const int analogDelay = 10; // time between each analog read
 const int numReads = 5;  // number of analog reads to calculate average from
